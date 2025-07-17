@@ -45,7 +45,7 @@ export type TCall = <T = any>(
 ) => Promise<T>;
 export type TMulticall = <T = any>(calls: TCallParams[]) => Promise<T[]>;
 export type TGetSessionCallback = (
-  successCallback: (token: IGeotabToken, host: string) => any,
+  successCallback: (token: ICredentials) => any,
   newSession?: boolean
 ) => void;
 
@@ -72,26 +72,21 @@ export interface IGeotabApi {
   getSession: TGetSessionCallback;
 }
 
-interface ILocalizer {}
-interface IUser {
-  id: string;
-  name: string;
-  firstName?: string;
-}
-
 export interface IAddinContext {
   geoApi: IGeotabApi;
-  pageApi: IGeotabPage;
-  currentUser: IUser;
-  localizer: ILocalizer;
-  addinElement: HTMLElement;
-  userAddInSecurityIdentifiers: string[];
-  addAddinListener: (
-    event: "focus" | "blur",
-    callback: () => void
-  ) => () => void;
+  // pageApi: IGeotabPage;
 }
 
-const addinContext = React.createContext<IAddinContext>(undefined as any);
+export interface ICredentials {
+  credentials: {
+    database: string;
+    userName: string;
+    password?: string;
+    sessionId?: string;
+  };
+  path: string;
+}
 
-export { addinContext as AddinContext };
+export const AddinContext = React.createContext<IAddinContext | undefined>(
+  undefined
+);

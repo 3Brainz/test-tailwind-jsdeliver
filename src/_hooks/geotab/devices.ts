@@ -56,7 +56,7 @@ export const useGetVehiclesData = (params: VehicleDataQueryParams) => {
   const addinContext = useContext(AddinContext);
   const query = useQuery({
     queryKey: [VEHICLE_DATA_QUERY_KEY, params.deviceVins],
-    queryFn: () => getVehicleData(addinContext, params.deviceVins),
+    queryFn: () => getVehicleData(params.deviceVins, addinContext),
     enabled: params.enabled && !!params.deviceVins.length,
   });
   return {
